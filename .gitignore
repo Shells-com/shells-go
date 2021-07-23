@@ -1,0 +1,9 @@
+/shells-go
+/shells-go.exe
+/dist
+/contrib/ios-password.txt
+.*.swp
+.DS_Store
+/installer/win64/Shells.exe
+.idea
+/installer/win64/ShellsSetup.exe
