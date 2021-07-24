@@ -5,6 +5,8 @@ import (
 	"log"
 	"math"
 	"os"
+	"strconv"
+	"strings"
 
 	"github.com/KarpelesLab/goclip"
 	"github.com/Shells-com/spice"
@@ -150,12 +152,30 @@ func (s *SpiceFyne) DisplayInit(img image.Image) {
 	s.height = bounds.Dy()
 
 	if !s.init {
-		s.w.Resize(fyne.Size{Width: float32(s.width), Height: float32(s.height)})
-		s.w.CenterOnScreen()
-		s.init = true
+		if fullscreen := os.Getenv("SHELLS_FULLSCREEN"); fullscreen != "" {
+			// special option: if SHELLS_FULLSCREEN=1 is passed in env, pass into fullscreen with passed size (eg 1920x1080)
+			fs := strings.SplitN(fullscreen, "x", 2)
+			if len(fs) == 2 {
+				w, _ := strconv.ParseInt(fs[0], 10, 32)
+				h, _ := strconv.ParseInt(fs[1], 10, 32)
+				if w > 0 && h > 0 {
+					// ok, good
+					s.w.Resize(fyne.Size{Width: float32(w), Height: float32(h)})
+					s.w.SetFullScreen(true)
+					s.init = true
 
-		// call updatesize with the window size in case it's different
-		s.UpdateSize(s.w.Canvas().Size())
+					s.UpdateSize(fyne.Size{Width: float32(w), Height: float32(h)})
+				}
+			}
+		}
+		if !s.init {
+			s.w.Resize(fyne.Size{Width: float32(s.width), Height: float32(s.height)})
+			s.w.CenterOnScreen()
+			s.init = true
+
+			// call updatesize with the window size in case it's different
+			s.UpdateSize(s.w.Canvas().Size())
+		}
 	}
 	canvas.Refresh(s.output)
 }
