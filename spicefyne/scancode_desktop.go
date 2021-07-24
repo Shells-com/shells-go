@@ -68,7 +68,7 @@ var glfwScancodeMap = map[glfw.Key][]byte{
 	glfw.KeyTab:       []byte{0x0f},
 	glfw.KeyBackspace: []byte{0x0e},
 	glfw.KeyInsert:    []byte{0xe0, 0x52},
-	glfw.KeyDelete:    []byte{0xe0, 0x73},
+	glfw.KeyDelete:    []byte{0xe0, 0x53},
 	glfw.KeyRight:     []byte{0xe0, 0x4d},
 	glfw.KeyLeft:      []byte{0xe0, 0x4b},
 	glfw.KeyDown:      []byte{0xe0, 0x50},

@@ -1,7 +1,10 @@
 package res
 
-import _ "embed"
-import "fyne.io/fyne/v2"
+import (
+	_ "embed"
+
+	"fyne.io/fyne/v2"
+)
 
 //go:embed rightarrow.svg
 var rightArrowBin []byte

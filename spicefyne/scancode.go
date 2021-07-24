@@ -12,7 +12,7 @@ var fyneScancodeMap = map[fyne.KeyName][]byte{
 	fyne.KeyTab:       []byte{0x0f},
 	fyne.KeyBackspace: []byte{0x0e},
 	fyne.KeyInsert:    []byte{0xe0, 0x52},
-	fyne.KeyDelete:    []byte{0xe0, 0x73},
+	fyne.KeyDelete:    []byte{0xe0, 0x53},
 	fyne.KeyRight:     []byte{0xe0, 0x4d},
 	fyne.KeyLeft:      []byte{0xe0, 0x4b},
 	fyne.KeyDown:      []byte{0xe0, 0x50},
