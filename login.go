@@ -6,12 +6,17 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"log"
+	"net/http"
+	"net/url"
+	"os"
 	"strings"
 	"sync"
 	"time"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
@@ -22,6 +27,7 @@ import (
 	"github.com/Shells-com/shells-go/res"
 	"github.com/Shells-com/shells-go/shellsui"
 	"github.com/pkg/browser"
+	qrcode "github.com/skip2/go-qrcode"
 	"github.com/vincent-petithory/dataurl"
 )
 
@@ -82,10 +88,23 @@ func loginWindow(a fyne.App, w fyne.Window, next func(fyne.App, fyne.Window, *re
 		return
 	}
 
-	go func() {
-		time.Sleep(50 * time.Millisecond)
-		l.call(nil)
-	}()
+	switch os.Getenv("SHELLS_LOGIN") {
+	case "thin":
+		// special mode, generate a QR login and ask user to login
+		go func() {
+			err := l.doThin()
+			if err != nil {
+				l.doErr(err)
+			}
+		}()
+	case "flow":
+		fallthrough
+	default:
+		go func() {
+			time.Sleep(50 * time.Millisecond)
+			l.call(nil)
+		}()
+	}
 }
 
 func (l *loginShells) doSubmit() {
@@ -161,6 +180,106 @@ func (l *loginShells) doErr(err error) {
 		),
 	)
 	l.restoreFocus()
+}
+
+func (l *loginShells) doThin() error {
+	// special process
+	var res map[string]interface{}
+	err := rest.Apply(context.Background(), "OAuth2/App/"+clientID+":token_create", "POST", map[string]interface{}{}, &res)
+	if err != nil {
+		return err
+	}
+	tok, ok := res["polltoken"].(string)
+	if !ok {
+		return fmt.Errorf("failed to fetch polltoken")
+	}
+
+	// see: https://www.shells.com/.well-known/openid-configuration?pretty
+	tokuri := url.QueryEscape("polltoken:" + tok)
+	fulluri := fmt.Sprintf("https://www.shells.com/_rest/OAuth2:auth?response_type=code&client_id=%s&redirect_uri=%s&scope=profile", clientID, tokuri)
+
+	if u, ok := res["xox"].(string); ok {
+		fulluri = u
+	}
+
+	qr, err := qrcode.New(fulluri, qrcode.Medium)
+	if err != nil {
+		return err
+	}
+	img := qr.Image(256)
+	cimg := canvas.NewImageFromImage(img)
+	cimg.FillMode = canvas.ImageFillOriginal
+
+	//log.Printf("Please open this URL in order to access shells:\n%s", fulluri)
+	var fields []fyne.CanvasObject
+
+	fields = append(fields, shellsui.GetShellsLabel("Please authenticate this device"))
+	fields = append(fields, cimg)
+	fields = append(fields, shellsui.GetShellsLabel("Peering code: "+strings.TrimPrefix(fulluri, "xox.jp/")))
+
+	l.w.SetContent(shellsui.GetMainContainer(container.NewVBox(fields...)))
+	l.w.CenterOnScreen()
+
+	// wait for login to complete
+	for {
+		var res map[string]interface{}
+		err := rest.Apply(context.Background(), "OAuth2/App/"+clientID+":token_poll", "POST", map[string]interface{}{"polltoken": tok}, &res)
+		if err != nil {
+			return err
+		}
+
+		v, ok := res["response"]
+		if !ok {
+			time.Sleep(time.Second) // just in case
+			continue
+		}
+
+		resp, ok := v.(map[string]interface{})
+		if !ok {
+			return fmt.Errorf("invalid response from api, response of invalid type")
+		}
+
+		code, ok := resp["code"].(string)
+		if !ok {
+			return fmt.Errorf("invalid response from api, response not containing code")
+		}
+
+		log.Printf("fetching auth token...")
+
+		// https://www.shells.com/_special/rest/OAuth2:token
+		httpresp, err := http.PostForm("https://www.shells.com/_special/rest/OAuth2:token", url.Values{"client_id": {clientID}, "grant_type": {"authorization_code"}, "code": {code}})
+		if err != nil {
+			return fmt.Errorf("while fetching token: %w", err)
+		}
+		defer httpresp.Body.Close()
+
+		if httpresp.StatusCode != 200 {
+			return fmt.Errorf("invalid status code from server: %s", httpresp.Status)
+		}
+
+		body, err := io.ReadAll(httpresp.Body)
+		if err != nil {
+			return fmt.Errorf("while reading token: %w", err)
+		}
+
+		// decode token
+		var token *rest.Token
+		err = json.Unmarshal(body, &token)
+		if err != nil {
+			return fmt.Errorf("while decoding token: %w", err)
+		}
+		token.ClientID = clientID
+
+		if js, err := json.Marshal(token); err == nil {
+			// should be the case
+			jsB := base64.RawURLEncoding.EncodeToString(js)
+			l.a.Preferences().SetString("token", jsB)
+		}
+
+		l.next(l.a, l.w, token)
+
+		return nil
+	}
 }
 
 func (l *loginShells) doCall(vars map[string]interface{}) {

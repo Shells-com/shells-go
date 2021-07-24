@@ -14,6 +14,7 @@ require (
 	github.com/golang/snappy v0.0.2
 	github.com/gordonklaus/portaudio v0.0.0-20200911161147-bb74aa485641 // indirect
 	github.com/pkg/browser v0.0.0-20210115035449-ce105d075bb4
+	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e // indirect
 	github.com/stretchr/testify v1.7.0
 	github.com/vincent-petithory/dataurl v0.0.0-20191104211930-d1553a71de50
 	golang.org/x/image v0.0.0-20200430140353-33d19683fad8
