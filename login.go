@@ -234,6 +234,8 @@ func (l *loginShells) doThin() error {
 			continue
 		}
 
+		l.loading()
+
 		resp, ok := v.(map[string]interface{})
 		if !ok {
 			return fmt.Errorf("invalid response from api, response of invalid type")
