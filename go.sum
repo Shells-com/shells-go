@@ -17,6 +17,8 @@ github.com/Shells-com/spice v0.0.1 h1:xktJip+6QnpkAefckjmzeACwHlhgkbGQ4+Gr2eA3XC
 github.com/Shells-com/spice v0.0.1/go.mod h1:g+j8FZ447fQ87m6NDi8vULcIeDX+YPLnnuEhvxlEK6Q=
 github.com/Shells-com/spice v0.0.2 h1:ziaVVCQlo0gt6nGQERJ7E6ZWpMnLJL3Tld2BIYW6Vp0=
 github.com/Shells-com/spice v0.0.2/go.mod h1:UseQUmSdSNUZD9pnW4AKZI8xTzWy05ZZvGDPvw2eu54=
+github.com/Shells-com/spice v0.0.3 h1:xRZGh6f+kQv+tiyGGPGm/+28KMW8tH4UlZwj/x2y2Ds=
+github.com/Shells-com/spice v0.0.3/go.mod h1:UseQUmSdSNUZD9pnW4AKZI8xTzWy05ZZvGDPvw2eu54=
 github.com/akavel/rsrc v0.8.0/go.mod h1:uLoCtb9J+EyAqh+26kdrTgmzRBFPGOolLWKpdxkKq+c=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=

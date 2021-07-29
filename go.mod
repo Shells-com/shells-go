@@ -9,7 +9,7 @@ require (
 	github.com/KarpelesLab/rest v0.2.2
 	github.com/KarpelesLab/static-opus v0.3.131
 	github.com/KarpelesLab/static-portaudio v0.4.190600
-	github.com/Shells-com/spice v0.0.2 // indirect
+	github.com/Shells-com/spice v0.0.3 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20210410170116-ea3d685f79fb
 	github.com/golang/snappy v0.0.2
 	github.com/gordonklaus/portaudio v0.0.0-20200911161147-bb74aa485641 // indirect
