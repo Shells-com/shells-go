@@ -9,3 +9,4 @@
 * Virtual keyboard
 * Improve UI
 * Add full screen button
+* wasm build
