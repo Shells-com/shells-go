@@ -10,7 +10,6 @@ import (
 
 	"github.com/KarpelesLab/goclip"
 	"github.com/Shells-com/spice"
-	"github.com/go-gl/glfw/v3.3/glfw"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -399,11 +398,9 @@ func (s *SpiceFyne) Scrolled(ev *fyne.ScrollEvent) {
 
 func (s *SpiceFyne) KeyDown(ev *fyne.KeyEvent) {
 	if in := s.in; in != nil {
-		if evk, ok := ev.Sys.(glfw.Key); ok {
-			if k, ok := glfwScancodeMap[evk]; ok && k != nil {
-				in.OnKeyDown(k)
-				return
-			}
+		if k, ok := scancodeLookup(ev.Physical.ScanCode); ok && k != nil {
+			in.OnKeyDown(k)
+			return
 		}
 		k, ok := fyneScancodeMap[ev.Name]
 		if !ok {
@@ -416,11 +413,9 @@ func (s *SpiceFyne) KeyDown(ev *fyne.KeyEvent) {
 
 func (s *SpiceFyne) KeyUp(ev *fyne.KeyEvent) {
 	if in := s.in; in != nil {
-		if evk, ok := ev.Sys.(glfw.Key); ok {
-			if k, ok := glfwScancodeMap[evk]; ok && k != nil {
-				in.OnKeyUp(k)
-				return
-			}
+		if k, ok := scancodeLookup(ev.Physical.ScanCode); ok && k != nil {
+			in.OnKeyUp(k)
+			return
 		}
 		k, ok := fyneScancodeMap[ev.Name]
 		if !ok {

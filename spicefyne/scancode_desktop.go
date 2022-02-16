@@ -1,8 +1,34 @@
 package spicefyne
 
 import (
+	"sync"
+
 	"github.com/go-gl/glfw/v3.3/glfw"
 )
+
+import "C"
+
+var (
+	fynePhysicalScancodeMap     map[int][]byte
+	fynePhysicalScancodeMapInit sync.Once
+)
+
+func scancodeLookup(sc int) ([]byte, bool) {
+	fynePhysicalScancodeMapInit.Do(func() {
+		// fill fyneUsbScancodeMap via glfw because fyne exposes scancode rather than glfw abstraction
+		fynePhysicalScancodeMap = make(map[int][]byte)
+
+		for k, v := range glfwScancodeMap {
+			scancode := glfw.GetKeyScancode(k)
+			if scancode != -1 {
+				fynePhysicalScancodeMap[scancode] = v
+			}
+		}
+	})
+
+	v, ok := fynePhysicalScancodeMap[sc]
+	return v, ok
+}
 
 // glfw → XT scancode table
 // see: https://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html
