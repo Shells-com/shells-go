@@ -121,7 +121,7 @@ func (s *shell) ProxyConnect(port uint16, compress bool, timeout time.Duration) 
 	cfg := &tls.Config{
 		NextProtos: []string{"shl-proxy"},
 	}
-	c, err := tls.Dial("tcp", fmt.Sprintf("%s:%d", s.spice.Host, s.spice.Port), cfg)
+	c, err := s.tlsDial("tcp", fmt.Sprintf("%s:%d", s.spice.Host, s.spice.Port), cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +171,7 @@ func (s *shell) SpiceConnect(compress bool) (net.Conn, error) {
 	cfg := &tls.Config{
 		NextProtos: []string{"shl-spice"},
 	}
-	c, err := tls.Dial("tcp", fmt.Sprintf("%s:%d", s.spice.Host, s.spice.Port), cfg)
+	c, err := s.tlsDial("tcp", fmt.Sprintf("%s:%d", s.spice.Host, s.spice.Port), cfg)
 	if err != nil {
 		return nil, err
 	}

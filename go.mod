@@ -18,5 +18,6 @@ require (
 	github.com/vincent-petithory/dataurl v0.0.0-20191104211930-d1553a71de50
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
 	golang.org/x/image v0.0.0-20200430140353-33d19683fad8
+	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4
 	gopkg.in/go-playground/colors.v1 v1.2.0 // indirect
 )
