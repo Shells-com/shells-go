@@ -79,6 +79,12 @@ func (s *shell) tlsDial(network, address string, cfg *tls.Config) (*tls.Conn, er
 
 			// do TLS
 			tlsconn := tls.Client(s, cfg)
+			// perform handshake now
+			err = tlsconn.Handshake()
+			if err != nil {
+				s.Close()
+				return nil, err
+			}
 			return tlsconn, nil
 		default:
 			// TODO support socks4 socks5 etc?
