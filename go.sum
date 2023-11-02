@@ -12,8 +12,15 @@ github.com/KarpelesLab/rest v0.2.2 h1:cSj/WF3ffbW+dh61+TFCE6CY0IOOEgkY7VeQEr3paj
 github.com/KarpelesLab/rest v0.2.2/go.mod h1:rVA9bURXRRZLN2ms3A5JmH+zpc9SNoUHNX5KFCemtlE=
 github.com/KarpelesLab/static-opus v0.3.131 h1:nxbTIpPijjot5QmX+5n6C1NLQNxCIxCAuDqyyt0ivIk=
 github.com/KarpelesLab/static-opus v0.3.131/go.mod h1:imuTrncTHBbXQoleH8j32Li//haNTz8N7S95RiTkP6g=
+github.com/KarpelesLab/static-opus v0.4.131/go.mod h1:imuTrncTHBbXQoleH8j32Li//haNTz8N7S95RiTkP6g=
+github.com/KarpelesLab/static-opus v0.5.131 h1:7CM2kyaENJLWsOiepyl1YP8OILxqyzLnExA4tEs/qU8=
+github.com/KarpelesLab/static-opus v0.5.131/go.mod h1:L2YOykRagyAmgiBTXpdsKhZxhx1wLkWzgen2y0t2ApE=
 github.com/KarpelesLab/static-portaudio v0.4.190600 h1:y+wZ2jHuxklHUzjet9lq3Tv/0g4j+Ghq1wTM1Qse6Zs=
 github.com/KarpelesLab/static-portaudio v0.4.190600/go.mod h1:gJo/PfziOxbetHg+KzbgFMZeKy57tGRrsuwqfOtQ5/c=
+github.com/KarpelesLab/static-portaudio v0.5.190600 h1:LBPCf5tKeXncnOc8a88y8I9Rd3SgjKxS7Mi+wsKyUNI=
+github.com/KarpelesLab/static-portaudio v0.5.190600/go.mod h1:gJo/PfziOxbetHg+KzbgFMZeKy57tGRrsuwqfOtQ5/c=
+github.com/KarpelesLab/static-portaudio v0.6.190600 h1:tsflLJBFktrcjZhB0LuATgvx6v8ZgO7KdnC+gslzZus=
+github.com/KarpelesLab/static-portaudio v0.6.190600/go.mod h1:NjhxVMSjVFaeEJxAbJesGNTKp2nIDqwF3nuGXWG3WMw=
 github.com/Kodeworks/golang-image-ico v0.0.0-20141118225523-73f0f4cfade9/go.mod h1:7uhhqiBaR4CpN0k9rMjOtjpcfGd6DG2m04zQxKnWQ0I=
 github.com/MagicalTux/fyne/v2 v2.0.4-0.20210517173427-d303af45520c h1:bO38sQEbdZ+T96EWD1WKZI9JGfrDspfbR/h+PBNNsRo=
 github.com/MagicalTux/fyne/v2 v2.0.4-0.20210517173427-d303af45520c/go.mod h1:nNpgL7sZkDVLraGtQII2ArNRnnl6kHup/KfQRxIhbvs=
