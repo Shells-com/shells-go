@@ -86,6 +86,8 @@ github.com/Shells-com/spice v0.0.2 h1:ziaVVCQlo0gt6nGQERJ7E6ZWpMnLJL3Tld2BIYW6Vp
 github.com/Shells-com/spice v0.0.2/go.mod h1:UseQUmSdSNUZD9pnW4AKZI8xTzWy05ZZvGDPvw2eu54=
 github.com/Shells-com/spice v0.0.3 h1:xRZGh6f+kQv+tiyGGPGm/+28KMW8tH4UlZwj/x2y2Ds=
 github.com/Shells-com/spice v0.0.3/go.mod h1:UseQUmSdSNUZD9pnW4AKZI8xTzWy05ZZvGDPvw2eu54=
+github.com/Shells-com/spice v0.0.4 h1:kVlVSySSmUtqBqB0rH08xCoa5uc1QuJVrP5HViw09iY=
+github.com/Shells-com/spice v0.0.4/go.mod h1:UseQUmSdSNUZD9pnW4AKZI8xTzWy05ZZvGDPvw2eu54=
 github.com/akavel/rsrc v0.8.0/go.mod h1:uLoCtb9J+EyAqh+26kdrTgmzRBFPGOolLWKpdxkKq+c=
 github.com/akavel/rsrc v0.10.2/go.mod h1:uLoCtb9J+EyAqh+26kdrTgmzRBFPGOolLWKpdxkKq+c=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=

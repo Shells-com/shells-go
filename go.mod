@@ -9,7 +9,7 @@ require (
 	github.com/KarpelesLab/csscolor v0.0.1
 	github.com/KarpelesLab/goclip v0.0.3
 	github.com/KarpelesLab/rest v0.5.23
-	github.com/Shells-com/spice v0.0.3
+	github.com/Shells-com/spice v0.0.4
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20240506104042-037f3cc74f2a
 	github.com/golang/snappy v0.0.4
 	github.com/gordonklaus/portaudio v0.0.0-20230709114228-aafa478834f5
