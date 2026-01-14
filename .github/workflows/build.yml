@@ -44,6 +44,7 @@ jobs:
         run: |
           go mod edit -replace github.com/gordonklaus/portaudio=github.com/KarpelesLab/static-portaudio@v0.6.190600
           go mod edit -replace github.com/hraban/opus=github.com/KarpelesLab/static-opus@v0.5.131
+          go get .
 
       - name: Run tests
         run: go test -v ./...
@@ -81,6 +82,7 @@ jobs:
         run: |
           go mod edit -replace github.com/gordonklaus/portaudio=github.com/KarpelesLab/static-portaudio@v0.6.190600
           go mod edit -replace github.com/hraban/opus=github.com/KarpelesLab/static-opus@v0.5.131
+          go get .
 
       - name: Build
         run: |
@@ -117,6 +119,7 @@ jobs:
         run: |
           go mod edit -replace github.com/gordonklaus/portaudio=github.com/KarpelesLab/static-portaudio@v0.6.190600
           go mod edit -replace github.com/hraban/opus=github.com/KarpelesLab/static-opus@v0.5.131
+          go get .
 
       - name: Build
         run: |
@@ -146,6 +149,7 @@ jobs:
         run: |
           go mod edit -replace github.com/gordonklaus/portaudio=github.com/KarpelesLab/static-portaudio@v0.6.190600
           go mod edit -replace github.com/hraban/opus=github.com/KarpelesLab/static-opus@v0.5.131
+          go get .
 
       - name: Build
         run: |
@@ -174,6 +178,7 @@ jobs:
         run: |
           go mod edit -replace github.com/gordonklaus/portaudio=github.com/KarpelesLab/static-portaudio@v0.6.190600
           go mod edit -replace github.com/hraban/opus=github.com/KarpelesLab/static-opus@v0.5.131
+          go get .
 
       - name: Build ARM64
         run: |
