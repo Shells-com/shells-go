@@ -35,9 +35,13 @@ func (s *snappyConn) Read(b []byte) (int, error) {
 
 func (s *snappyConn) Write(b []byte) (int, error) {
 	if s.sw == nil {
-		s.sw = snappy.NewWriter(s.c)
+		s.sw = snappy.NewBufferedWriter(s.c)
 	}
-	return s.sw.Write(b)
+	n, err := s.sw.Write(b)
+	if err != nil {
+		return n, err
+	}
+	return n, s.sw.Flush()
 }
 
 func (s *snappyConn) SetDeadline(t time.Time) error {

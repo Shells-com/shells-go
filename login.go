@@ -134,11 +134,9 @@ func (l *loginShells) checkSession() bool {
 
 func (l *loginShells) call(vars map[string]interface{}) {
 	req := make(map[string]interface{})
-	if vars != nil {
-		// duplicate values
-		for k, v := range vars {
-			req[k] = v
-		}
+	// duplicate values
+	for k, v := range vars {
+		req[k] = v
 	}
 	req["client_id"] = clientID
 	if l.session != "" {

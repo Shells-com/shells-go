@@ -28,7 +28,9 @@ func interco(c1, c2 net.Conn, compress bool) {
 		defer doClose()
 		if compress {
 			// snappy compression
-			io.Copy(snappy.NewWriter(c1), c2)
+			w := snappy.NewBufferedWriter(c1)
+			io.Copy(w, c2)
+			w.Close()
 		} else {
 			io.Copy(c1, c2)
 		}
@@ -46,7 +48,5 @@ func interco(c1, c2 net.Conn, compress bool) {
 	}()
 
 	// wait for close signal
-	select {
-	case <-cl:
-	}
+	<-cl
 }

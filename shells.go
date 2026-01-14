@@ -155,7 +155,7 @@ func (s *shell) ProxyConnect(port uint16, compress bool, timeout time.Duration) 
 		return nil, err
 	}
 	if res[0] != 0 {
-		return nil, errors.New("Connection has failed")
+		return nil, errors.New("connection has failed")
 	}
 	c.SetReadDeadline(time.Time{})
 
@@ -256,6 +256,10 @@ func (s *shell) tryRdp() {
 	c.Close()
 
 	l, err := s.startProxyPort(3389, false)
+	if err != nil {
+		log.Printf("rdp: failed to start proxy port: %s", err)
+		return
+	}
 	defer l.Close()
 
 	addr := l.Addr().(*net.TCPAddr)

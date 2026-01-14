@@ -16,7 +16,6 @@ type control struct {
 	visible         bool
 	parent          *SpiceFyne
 	sidebarPosition string
-	tgtW            float32
 
 	muteIconContainer *fyne.Container
 	sidebar           *fyne.Container

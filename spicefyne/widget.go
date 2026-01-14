@@ -39,8 +39,6 @@ type SpiceFyne struct {
 
 	cursorObj *fyneCursor
 
-	expanded bool
-
 	// focus
 	focused bool
 
