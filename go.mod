@@ -1,8 +1,6 @@
 module github.com/Shells-com/shells-go
 
-go 1.23.0
-
-toolchain go1.23.4
+go 1.24.0
 
 require (
 	fyne.io/fyne/v2 v2.1.2

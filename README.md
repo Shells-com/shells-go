@@ -19,7 +19,7 @@ A cross-platform desktop client for remotely accessing [Shells™](https://www.s
 
 ### Prerequisites
 
-- Go 1.23 or later
+- Go 1.24 or later
 - CGO enabled (required for audio and graphics dependencies)
 
 ### Linux
