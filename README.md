@@ -60,7 +60,7 @@ For producing portable binaries with statically linked audio libraries, add the 
 
 ```
 replace github.com/gordonklaus/portaudio => github.com/KarpelesLab/static-portaudio v0.6.190600
-replace github.com/hraban/opus => github.com/KarpelesLab/static-opus v0.6.152
+replace github.com/hraban/opus => github.com/KarpelesLab/static-opus v0.7.152
 ```
 
 ## Environment Variables
