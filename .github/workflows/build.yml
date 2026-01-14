@@ -217,11 +217,30 @@ jobs:
       - name: Prepare release assets
         run: |
           mkdir -p release
-          cp artifacts/shells-go-linux-amd64/shells-go-linux-amd64 release/
-          cp artifacts/shells-go-windows-amd64/shells-go-windows-amd64.exe release/
-          cp artifacts/shells-go-darwin-amd64/shells-go-darwin-amd64 release/
-          cp artifacts/shells-go-darwin-arm64/shells-go-darwin-arm64 release/
-          cp artifacts/shells-go-darwin-universal/shells-go-darwin-universal release/
+          VERSION=${GITHUB_REF#refs/tags/}
+
+          # Linux - tar.gz
+          tar -czvf release/shells-go-linux-amd64-${VERSION}.tar.gz \
+            -C artifacts/shells-go-linux-amd64 shells-go-linux-amd64
+
+          # Windows - zip
+          cd artifacts/shells-go-windows-amd64
+          zip ../../release/shells-go-windows-amd64-${VERSION}.zip shells-go-windows-amd64.exe
+          cd ../..
+
+          # macOS Intel - tar.gz
+          tar -czvf release/shells-go-darwin-amd64-${VERSION}.tar.gz \
+            -C artifacts/shells-go-darwin-amd64 shells-go-darwin-amd64
+
+          # macOS ARM - tar.gz
+          tar -czvf release/shells-go-darwin-arm64-${VERSION}.tar.gz \
+            -C artifacts/shells-go-darwin-arm64 shells-go-darwin-arm64
+
+          # macOS Universal - tar.gz
+          tar -czvf release/shells-go-darwin-universal-${VERSION}.tar.gz \
+            -C artifacts/shells-go-darwin-universal shells-go-darwin-universal
+
+          # Generate checksums
           cd release
           sha256sum * > checksums.txt
 
@@ -230,10 +249,4 @@ jobs:
         with:
           draft: false
           generate_release_notes: true
-          files: |
-            release/shells-go-linux-amd64
-            release/shells-go-windows-amd64.exe
-            release/shells-go-darwin-amd64
-            release/shells-go-darwin-arm64
-            release/shells-go-darwin-universal
-            release/checksums.txt
+          files: release/*
