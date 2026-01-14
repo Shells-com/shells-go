@@ -33,6 +33,9 @@ jobs:
             libxi-dev \
             libxxf86vm-dev \
             libasound2-dev \
+            libxcb-util-dev \
+            libxcb-icccm4-dev \
+            libxcb-xfixes0-dev \
             pkg-config
 
       - name: Add static library replacements
@@ -67,6 +70,9 @@ jobs:
             libxi-dev \
             libxxf86vm-dev \
             libasound2-dev \
+            libxcb-util-dev \
+            libxcb-icccm4-dev \
+            libxcb-xfixes0-dev \
             pkg-config
 
       - name: Add static library replacements
