@@ -132,6 +132,20 @@ jobs:
           name: shells-go-windows-amd64
           path: shells-go-windows-amd64.exe
 
+      - name: Create Windows Installer
+        shell: pwsh
+        run: |
+          Copy-Item shells-go-windows-amd64.exe installer/win64/Shells.exe
+          choco install nsis -y
+          cd installer/win64
+          makensis installer.nsi
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shells-windows-installer
+          path: installer/win64/ShellsSetup.exe
+
   build-macos-intel:
     name: Build macOS Intel
     runs-on: macos-15-intel
@@ -206,6 +220,37 @@ jobs:
           name: shells-go-darwin-universal
           path: shells-go-darwin-universal
 
+      - name: Install fyne CLI
+        run: go install fyne.io/fyne/v2/cmd/fyne@latest
+
+      - name: Create macOS App Bundle
+        run: |
+          # Get version from tag or use default
+          VERSION=${GITHUB_REF#refs/tags/v}
+          if [[ "$VERSION" == "$GITHUB_REF" ]]; then
+            VERSION="0.0.0"
+          fi
+
+          # Create app bundle using fyne with universal binary
+          mv shells-go-darwin-universal shells-go
+          fyne package -os darwin -name Shells -appID com.shells.app -appVersion "$VERSION"
+          rm -f shells-go
+
+          # Replace binary with universal binary
+          mv shells-go-darwin-universal Shells.app/Contents/MacOS/shells-go
+
+          # Create pkg installer (unsigned for CI)
+          mkdir -p build
+          mv Shells.app build/
+          pkgbuild --root build --identifier "com.shells.app" --version "$VERSION" \
+            --install-location "/Applications" Shells.pkg
+
+      - name: Upload macOS pkg artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shells-macos-pkg
+          path: Shells.pkg
+
   release:
     name: Create Release
     runs-on: ubuntu-latest
@@ -228,10 +273,14 @@ jobs:
           tar -czvf release/shells-go-linux-amd64-${VERSION}.tar.gz \
             -C artifacts/shells-go-linux-amd64 shells-go-linux-amd64
 
-          # Windows - zip
+          # Windows - zip (raw binary)
           cd artifacts/shells-go-windows-amd64
           zip ../../release/shells-go-windows-amd64-${VERSION}.zip shells-go-windows-amd64.exe
           cd ../..
+
+          # Windows - installer
+          cp artifacts/shells-windows-installer/ShellsSetup.exe \
+            release/ShellsSetup-${VERSION}.exe
 
           # macOS Intel - tar.gz
           tar -czvf release/shells-go-darwin-amd64-${VERSION}.tar.gz \
@@ -244,6 +293,10 @@ jobs:
           # macOS Universal - tar.gz
           tar -czvf release/shells-go-darwin-universal-${VERSION}.tar.gz \
             -C artifacts/shells-go-darwin-universal shells-go-darwin-universal
+
+          # macOS - pkg installer
+          cp artifacts/shells-macos-pkg/Shells.pkg \
+            release/Shells-${VERSION}.pkg
 
           # Generate checksums
           cd release
