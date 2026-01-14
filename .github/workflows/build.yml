@@ -138,7 +138,7 @@ jobs:
           Copy-Item shells-go-windows-amd64.exe installer/win64/Shells.exe
           choco install nsis -y
           cd installer/win64
-          makensis installer.nsi
+          & "C:\Program Files (x86)\NSIS\makensis.exe" installer.nsi
 
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
@@ -232,12 +232,12 @@ jobs:
           fi
 
           # Create app bundle using fyne with universal binary
-          mv shells-go-darwin-universal shells-go
+          cp shells-go-darwin-universal shells-go
           fyne package -os darwin -name Shells -appID com.shells.app -appVersion "$VERSION"
           rm -f shells-go
 
           # Replace binary with universal binary
-          mv shells-go-darwin-universal Shells.app/Contents/MacOS/shells-go
+          cp shells-go-darwin-universal Shells.app/Contents/MacOS/shells-go
 
           # Create pkg installer (unsigned for CI)
           mkdir -p build
