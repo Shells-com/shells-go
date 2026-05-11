@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/exec"
 	"time"
@@ -301,9 +302,26 @@ func (s *shell) run() {
 
 	s.tryRdp()
 
-	_, err = spicefyne.New(s.w, s.a, s, s.spice.Password)
+	spiceFyneClient, err := spicefyne.New(s.w, s.a, s, s.spice.Password)
 	if err != nil {
 		log.Printf("spice init failed: %s", err)
 		os.Exit(1)
 	}
+	
+	// Setup Claude Computer Use integration
+	claudeCtrl := NewClaudeControlInterface(spiceFyneClient)
+	spiceFyneClient.SetClaudeControl(claudeCtrl)
+	
+	// TODO: Add UI controls for enabling/disabling Claude Computer Use
+	// For now, let's just enable it by default for testing
+	claudeCtrl.Enable()
+	
+	// Start the Claude API server on port 8080
+	apiServer := NewClaudeAPIServer(claudeCtrl, 8080)
+	go func() {
+		if err := apiServer.Start(); err != nil && err != http.ErrServerClosed {
+			log.Printf("Claude API server error: %s", err)
+		}
+	}()
+	
 }

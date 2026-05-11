@@ -60,6 +60,9 @@ type SpiceFyne struct {
 	// size updater
 	szUpd  chan fyne.Size
 	lkSize bool
+	
+	// Claude Computer Use integration
+	claudeControl interface{} // Will be set to ClaudeControlInterface
 }
 
 func New(w fyne.Window, a fyne.App, c spice.Connector, password string) (*SpiceFyne, error) {
@@ -174,19 +177,48 @@ func (s *SpiceFyne) DisplayInit(img image.Image) {
 			s.UpdateSize(s.w.Canvas().Size())
 		}
 	}
+	
+	// Update Claude's screenshot if integration is enabled
+	if s.claudeControl != nil {
+		if claudeIntf, ok := s.claudeControl.(interface{ UpdateScreenshot(image.Image) }); ok {
+			claudeIntf.UpdateScreenshot(img)
+		}
+	}
+	
 	canvas.Refresh(s.output)
 }
 
 func (s *SpiceFyne) DisplayRefresh() {
+	// If Claude integration is enabled, we could update the screenshot here as well,
+	// but doing it on every refresh might be too intensive
 	canvas.Refresh(s.output)
 }
 
 func (s *SpiceFyne) SetEventsTarget(in *spice.ChInputs) {
 	s.in = in
+	
+	// If Claude control is set up, update it with the input channel
+	if s.claudeControl != nil {
+		if claudeIntf, ok := s.claudeControl.(interface{ SetInputChannel(*spice.ChInputs) }); ok {
+			claudeIntf.SetInputChannel(in)
+		}
+	}
 }
 
 func (s *SpiceFyne) SetMainTarget(main *spice.ChMain) {
 	s.main = main
+}
+
+// SetClaudeControl configures the Claude Computer Use integration
+func (s *SpiceFyne) SetClaudeControl(ctrl interface{}) {
+	s.claudeControl = ctrl
+	
+	// Update input channel if already available
+	if s.in != nil {
+		if claudeIntf, ok := s.claudeControl.(interface{ SetInputChannel(*spice.ChInputs) }); ok {
+			claudeIntf.SetInputChannel(s.in)
+		}
+	}
 }
 
 func (s *SpiceFyne) CreateRenderer() fyne.WidgetRenderer {

@@ -68,6 +68,26 @@ replace github.com/hraban/opus => github.com/KarpelesLab/static-opus v0.9.152
 - `SHELLS_FULLSCREEN=WIDTHxHEIGHT` - Start in fullscreen mode with specified resolution (e.g., `1920x1080`)
 - `SHELLS_LOGIN=thin` - Use QR code login flow for thin client deployments
 
+## Claude Computer Use Integration
+
+The client includes an integration with Claude Computer Use, exposing the remote desktop to Claude over a local HTTP API. This lets Claude see the screen and drive mouse/keyboard input on the remote machine.
+
+### Features
+
+- Claude can see the remote desktop screen via screenshots
+- Claude can control mouse movement and clicks
+- Claude can send keyboard input
+- Simple HTTP API for Claude to interact with the remote desktop
+- Toggle to enable/disable Claude Computer Use
+
+### API Endpoints
+
+- `GET /api/v1/status` - Get the current status of Claude Computer Use
+- `GET /api/v1/screenshot` - Get a screenshot of the current desktop
+- `POST /api/v1/control` - Send control commands to the remote desktop
+
+The API binds to `127.0.0.1:8080` by default.
+
 ## License
 
 This software is proprietary to Shells™. See [shells.com](https://www.shells.com) for terms of service.
